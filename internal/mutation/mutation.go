@@ -5,23 +5,18 @@ import (
 	"time"
 )
 
-func InversionMutation(individual []int) []int {
-	n := len(individual)
-	if n < 2 {
-		return individual
-	}
-
+func Mutate(genome []int, rate float64) []int {
 	rand.Seed(time.Now().UnixNano())
-	start := rand.Intn(n)
-	end := rand.Intn(n)
-
-	if start > end {
-		start, end = end, start
+	mutatedGenome := make([]int, len(genome))
+	copy(mutatedGenome, genome)
+	for i := range mutatedGenome {
+		if rand.Float64() < rate {
+			if mutatedGenome[i] == 0 {
+				mutatedGenome[i] = 1
+			} else {
+				mutatedGenome[i] = 0
+			}
+		}
 	}
-
-	for i, j := start, end; i < j; i, j = i+1, j-1 {
-		individual[i], individual[j] = individual[j], individual[i]
-	}
-
-	return individual
+	return mutatedGenome
 }

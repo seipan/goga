@@ -14,7 +14,7 @@ type TournamentSelector struct {
 
 func (ts TournamentSelector) Select(population selection.Individuals) (selection.Individuals, error) {
 	if ts.TournamentSize > len(population) {
-		return nil, errors.New("トーナメントサイズが集団のサイズを超えています")
+		return nil, errors.New("error : over tournament size")
 	}
 
 	rand.Seed(time.Now().UnixNano())

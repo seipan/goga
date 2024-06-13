@@ -2,7 +2,7 @@ package goga
 
 type Genome interface {
 	Initialization() Genome
-	Fitness() float64
+	Fitness() int
 	Mutation()
 	Crossover(Genome) Genome
 }
