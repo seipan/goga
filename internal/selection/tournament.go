@@ -12,29 +12,26 @@ type TournamentSelector struct {
 	TournamentSize int
 }
 
-func (ts TournamentSelector) Select(population selection.Individuals) (selection.Individuals, error) {
-	if ts.TournamentSize > len(population) {
-		return nil, errors.New("error : over tournament size")
+func (t TournamentSelector) Select(indi selection.Individuals) (selection.Individuals, error) {
+	if len(indi) < t.TournamentSize {
+		return nil, errors.New("invalid NSelection: Too large NSelection")
 	}
-
+	selected := make(selection.Individuals, len(indi))
 	rand.Seed(time.Now().UnixNano())
-	selected := make(selection.Individuals, 0, len(population))
-
-	for i := 0; i < len(population); i++ {
-		tournament := make(selection.Individuals, ts.TournamentSize)
-		for j := 0; j < ts.TournamentSize; j++ {
-			randomIndex := rand.Intn(len(population))
-			tournament[j] = population[randomIndex]
-		}
-
-		best := tournament[0]
-		for _, ind := range tournament {
-			if ind.Fitness > best.Fitness {
-				best = ind
+	for i := range selected {
+		winner := indi[rand.Intn(len(indi))]
+		for j := 0; j < t.TournamentSize; j++ {
+			next := indi[rand.Intn(len(indi))]
+			if winner.Fitness < next.Fitness {
+				winner = next
 			}
 		}
-		selected = append(selected, best)
+		selected[i] = winner
 	}
 
 	return selected, nil
+}
+
+func NewTournamentSelector(tournamentSize int) TournamentSelector {
+	return TournamentSelector{TournamentSize: tournamentSize}
 }

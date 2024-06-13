@@ -45,3 +45,7 @@ func (rs RankingSelector) Select(population selection.Individuals) (selection.In
 
 	return selected, nil
 }
+
+func NewRankingSelector() RankingSelector {
+	return RankingSelector{}
+}

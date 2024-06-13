@@ -45,7 +45,7 @@ func (ga *GA) Minimize(g Genome) error {
 		if ga.PrintCallBack != nil {
 			ga.PrintCallBack()
 		} else {
-			fmt.Printf("Generation %3d: Fitness=%.3f Solution=%.3f\n", i, ga.BestIndividual.Fitness, ga.BestIndividual.Chromosome)
+			fmt.Printf("Generation %3d: Fitness=%3d Solution=%3d\n", i, ga.BestIndividual.Fitness, ga.BestIndividual.Chromosome)
 		}
 	}
 	return nil
