@@ -50,7 +50,7 @@ func main() {
 	selector := selection.NewTournamentSelector(2)
 	ga := goga.NewGA(goga.GAConfig{
 		PopulationSize: 30,
-		NGenerations:   100,
+		NGenerations:   20,
 		CrossoverRate:  0.8,
 		MutationRate:   0.01,
 	}, selector)

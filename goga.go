@@ -95,7 +95,7 @@ func (ga *GA) evolve() error {
 }
 
 func (ga *GA) updateBest(indi Individual) {
-	if ga.BestIndividual.Fitness > indi.Fitness {
+	if ga.BestIndividual.Fitness < indi.Fitness {
 		ga.BestIndividual = indi.Clone()
 	}
 }
