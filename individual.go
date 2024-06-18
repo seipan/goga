@@ -9,7 +9,7 @@ type Individuals []Individual
 
 type Individual struct {
 	Chromosome Genome
-	Fitness    int
+	Fitness    float64
 	Evaluated  bool
 }
 

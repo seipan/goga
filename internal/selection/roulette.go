@@ -16,7 +16,7 @@ func (rs RouletteSelector) Select(population selection.Individuals) (selection.I
 	}
 
 	// 集団の総フィットネスを計算
-	totalFitness := 0
+	var totalFitness float64
 	for _, ind := range population {
 		totalFitness += ind.Fitness
 	}
@@ -29,8 +29,8 @@ func (rs RouletteSelector) Select(population selection.Individuals) (selection.I
 	selected := make(selection.Individuals, 0, len(population))
 
 	for i := 0; i < len(population); i++ {
-		randomValue := rand.Intn(totalFitness)
-		cumulativeSum := 0
+		randomValue := rand.Float64()
+		var cumulativeSum float64
 
 		for _, ind := range population {
 			cumulativeSum += ind.Fitness

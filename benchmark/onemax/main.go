@@ -26,10 +26,10 @@ func (bg Variables) Initialization() goga.Genome {
 	return genome
 }
 
-func (bg Variables) Fitness() int {
-	var fitness int
+func (bg Variables) Fitness() float64 {
+	var fitness float64
 	for _, gene := range bg {
-		fitness += gene
+		fitness += float64(gene)
 	}
 	return fitness
 }
@@ -57,4 +57,5 @@ func main() {
 	if err := ga.Minimize(v); err != nil {
 		log.Fatal(err)
 	}
+
 }
