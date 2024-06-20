@@ -25,8 +25,19 @@ type KnapsackGenome struct {
 func (kg KnapsackGenome) Initialization() goga.Genome {
 	rand.Seed(time.Now().UnixNano())
 	genome := make([]bool, len(kg.Knapsack.Items))
+	currentWeight := 0
+
 	for i := range genome {
-		genome[i] = rand.Float64() < 0.5
+		if rand.Float64() < 0.5 {
+			if currentWeight+kg.Knapsack.Items[i].Weight <= kg.Knapsack.Capacity {
+				genome[i] = true
+				currentWeight += kg.Knapsack.Items[i].Weight
+			} else {
+				genome[i] = false
+			}
+		} else {
+			genome[i] = false
+		}
 	}
 	return KnapsackGenome{Genes: genome, Knapsack: kg.Knapsack}
 }
