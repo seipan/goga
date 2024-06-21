@@ -21,6 +21,7 @@ type GAConfig struct {
 	CrossoverRate  float64
 	MutationRate   float64
 	ParallelEval   bool
+	FitnessCount   uint
 }
 
 type Population struct {
@@ -45,7 +46,7 @@ func (ga *GA) Minimize(g Genome) error {
 		if ga.PrintCallBack != nil {
 			ga.PrintCallBack()
 		} else {
-			fmt.Printf("Generation %3d: Fitness=%.3f\n", i, ga.BestIndividual.Fitness)
+			fmt.Printf("Generation %3d: Fitness=%.3f: FitnessCount %3d\n", i, ga.BestIndividual.Fitness, ga.FitnessCount)
 		}
 	}
 	return nil
@@ -61,6 +62,7 @@ func (ga *GA) initPopulation(g Genome) {
 	ga.Population.Individuals = indis
 	ga.Population.Individuals.SortByFitness()
 	ga.BestIndividual = ga.Population.Individuals[0]
+	ga.FitnessCount = 0
 }
 
 func (ga *GA) evolve() error {
@@ -88,6 +90,7 @@ func (ga *GA) evolve() error {
 	}
 
 	offSprings.Evaluate(ga.ParallelEval)
+	ga.FitnessCount += uint(len(offSprings))
 	offSprings.SortByFitness()
 	ga.updateBest(offSprings[0])
 	ga.Population.Individuals = offSprings.Clone()

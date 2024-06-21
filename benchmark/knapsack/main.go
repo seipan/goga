@@ -1,10 +1,12 @@
-package knapsack
+package main
 
 import (
+	"log"
 	"math/rand"
 	"time"
 
 	"github.com/seipan/goga"
+	"github.com/seipan/goga/internal/selection"
 )
 
 type Item struct {
@@ -18,7 +20,7 @@ type Knapsack struct {
 
 type KnapsackGenome struct {
 	Genes      []bool
-	Knapsack   *Knapsack
+	Knapsack   Knapsack
 	FitnessVal float64
 }
 
@@ -51,8 +53,7 @@ func (kg KnapsackGenome) Fitness() float64 {
 		}
 	}
 	if totalWeight > kg.Knapsack.Capacity {
-		kg.FitnessVal = float64(totalValue) - float64(totalWeight-kg.Knapsack.Capacity)*10
-	} else {
+		kg.FitnessVal = 0
 		kg.FitnessVal = float64(totalValue)
 	}
 	return kg.FitnessVal
@@ -69,13 +70,36 @@ func (kg KnapsackGenome) Mutation() {
 
 func (kg KnapsackGenome) Crossover(other goga.Genome) goga.Genome {
 	partner := other.(KnapsackGenome)
-	childGenes := make([]bool, len(kg.Genes))
-	for i := range kg.Genes {
-		if rand.Float64() < 0.5 {
-			childGenes[i] = kg.Genes[i]
-		} else {
-			childGenes[i] = partner.Genes[i]
-		}
+	child1Genes, _ := TwoPointCrossover(kg.Genes, partner.Genes)
+	return KnapsackGenome{Genes: child1Genes, Knapsack: kg.Knapsack}
+}
+
+func main() {
+	items := []Item{
+		{Weight: 10, Value: 60},
+		{Weight: 20, Value: 100},
+		{Weight: 25, Value: 120},
+		{Weight: 10, Value: 10},
+		{Weight: 20, Value: 140},
+		{Weight: 40, Value: 80},
+		{Weight: 20, Value: 70},
+		{Weight: 40, Value: 130},
+		{Weight: 10, Value: 60},
+		{Weight: 30, Value: 50},
+		{Weight: 30, Value: 120},
 	}
-	return KnapsackGenome{Genes: childGenes, Knapsack: kg.Knapsack}
+
+	capacity := 150
+	knapsack := Knapsack{Items: items, Capacity: capacity}
+	initialGenome := KnapsackGenome{Knapsack: knapsack}.Initialization()
+	selector := selection.NewTournamentSelector(2)
+	ga := goga.NewGA(goga.GAConfig{
+		PopulationSize: 30,
+		NGenerations:   100,
+		CrossoverRate:  0.8,
+		MutationRate:   0.01,
+	}, selector)
+	if err := ga.Minimize(initialGenome); err != nil {
+		log.Fatal(err)
+	}
 }
