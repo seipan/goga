@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/seipan/goga"
+	"github.com/seipan/goga/internal/printer"
 	"github.com/seipan/goga/internal/selection"
 )
 
@@ -93,12 +94,16 @@ func main() {
 	knapsack := Knapsack{Items: items, Capacity: capacity}
 	initialGenome := KnapsackGenome{Knapsack: knapsack}.Initialization()
 	selector := selection.NewTournamentSelector(2)
+	printer, err := printer.NewCSVPrinter()
+	if err != nil {
+		log.Fatal(err)
+	}
 	ga := goga.NewGA(goga.GAConfig{
 		PopulationSize: 30,
 		NGenerations:   100,
 		CrossoverRate:  0.8,
 		MutationRate:   0.01,
-	}, selector)
+	}, selector, printer)
 	if err := ga.Minimize(initialGenome); err != nil {
 		log.Fatal(err)
 	}

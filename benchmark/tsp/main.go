@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/seipan/goga"
+	"github.com/seipan/goga/internal/printer"
 	"github.com/seipan/goga/internal/selection"
 )
 
@@ -65,12 +66,16 @@ func main() {
 	}
 
 	selector := selection.NewTournamentSelector(2)
+	printer, err := printer.NewCSVPrinter()
+	if err != nil {
+		log.Fatal(err)
+	}
 	ga := goga.NewGA(goga.GAConfig{
 		PopulationSize: 30,
 		NGenerations:   200,
 		CrossoverRate:  0.8,
 		MutationRate:   0.01,
-	}, selector)
+	}, selector, printer)
 	if err := ga.Minimize(v); err != nil {
 		log.Fatal(err)
 	}

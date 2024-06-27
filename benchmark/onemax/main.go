@@ -8,6 +8,7 @@ import (
 	goga "github.com/seipan/goga"
 	crossover "github.com/seipan/goga/internal/crossover"
 	mutation "github.com/seipan/goga/internal/mutation"
+	"github.com/seipan/goga/internal/printer"
 	selection "github.com/seipan/goga/internal/selection"
 )
 
@@ -48,12 +49,17 @@ func main() {
 	genomeLength := 20 // Length of the binary genome
 	var v Variables = make([]int, genomeLength)
 	selector := selection.NewTournamentSelector(2)
+	printer, err := printer.NewCSVPrinter()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	ga := goga.NewGA(goga.GAConfig{
 		PopulationSize: 30,
 		NGenerations:   40,
 		CrossoverRate:  0.8,
 		MutationRate:   0.01,
-	}, selector)
+	}, selector, printer)
 	if err := ga.Minimize(v); err != nil {
 		log.Fatal(err)
 	}

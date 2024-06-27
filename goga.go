@@ -29,10 +29,11 @@ type Population struct {
 	Generations uint
 }
 
-func NewGA(gaConfig GAConfig, selector Selector) *GA {
+func NewGA(gaConfig GAConfig, selector Selector, printer Printer) *GA {
 	return &GA{
 		GAConfig: gaConfig,
 		Selector: selector,
+		Printer:  printer,
 	}
 }
 
