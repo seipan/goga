@@ -22,20 +22,16 @@ def plot_data(data, save_path):
     plt.legend()
     plt.grid(True)
     
-    # グラフを保存
     plt.savefig(save_path)
     plt.close()
 
-# ディレクトリのパスを指定
 directory_path = "../data/files"
 save_directory = "../image"
 os.makedirs(save_directory, exist_ok=True)
 save_path = os.path.join(save_directory, "fitness_plot.png")
 
-# データの読み込み
 data = load_data_from_directory(directory_path)
 
-# データのプロットと保存
 plot_data(data, save_path)
 
 print(f"Graph saved to {save_path}")
