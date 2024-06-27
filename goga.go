@@ -1,7 +1,6 @@
 package goga
 
 import (
-	"fmt"
 	"log"
 	"math/rand"
 	"time"
@@ -11,6 +10,7 @@ type GA struct {
 	GAConfig
 	Population
 	Selector       Selector
+	Printer        Printer
 	BestIndividual Individual
 	PrintCallBack  func()
 }
@@ -46,7 +46,7 @@ func (ga *GA) Minimize(g Genome) error {
 		if ga.PrintCallBack != nil {
 			ga.PrintCallBack()
 		} else {
-			fmt.Printf("%.3f, %3d\n", ga.BestIndividual.Fitness, ga.FitnessCount)
+			ga.Printer.Print(ga.BestIndividual.Fitness, ga.FitnessCount)
 		}
 	}
 	return nil
