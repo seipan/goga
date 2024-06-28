@@ -14,12 +14,12 @@ type CSVPrinter struct {
 }
 
 func NewCSVPrinter() (*CSVPrinter, error) {
-	currentTime := time.Now().Format("20060102150405")
-	dirPath := fmt.Sprintf("data/%s", currentTime)
+	currentTime := time.Now().Format("20060102")
+	dirPath := fmt.Sprintf("../../data/%s", currentTime)
 	if err := os.MkdirAll(dirPath, os.ModePerm); err != nil {
 		return nil, err
 	}
-	filePath := fmt.Sprintf("%s/test.csv", dirPath)
+	filePath := fmt.Sprintf("%s/test6.csv", dirPath)
 	file, err := os.Create(filePath)
 	if err != nil {
 		return nil, err

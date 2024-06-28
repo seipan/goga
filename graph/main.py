@@ -25,7 +25,7 @@ def plot_data(data, save_path):
     plt.savefig(save_path)
     plt.close()
 
-directory_path = "../data/files"
+directory_path = "../data/20240628"
 save_directory = "../image"
 os.makedirs(save_directory, exist_ok=True)
 save_path = os.path.join(save_directory, "fitness_plot.png")

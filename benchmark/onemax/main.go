@@ -46,7 +46,7 @@ func (bg Variables) Crossover(other goga.Genome) goga.Genome {
 }
 
 func main() {
-	genomeLength := 20 // Length of the binary genome
+	genomeLength := 80 // Length of the binary genome
 	var v Variables = make([]int, genomeLength)
 	selector := selection.NewTournamentSelector(2)
 	printer, err := printer.NewCSVPrinter()
@@ -55,8 +55,8 @@ func main() {
 	}
 
 	ga := goga.NewGA(goga.GAConfig{
-		PopulationSize: 30,
-		NGenerations:   40,
+		PopulationSize: 60,
+		NGenerations:   80,
 		CrossoverRate:  0.8,
 		MutationRate:   0.01,
 	}, selector, printer)
